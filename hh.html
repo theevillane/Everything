@@ -11,17 +11,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="hh.css">
 <script>
-  function checkWordLimit() {
+  function checkWordLimit(textareaId) {
       const textarea = document.getElementById('userInput');
-      const wordLimit = 10; // Set the word limit
-      const words = textarea.value.split(/\s+/).filter(Boolean); // Split by whitespace and filter out empty entries
+      const wordLimit = 18; // Set the word limit
+      const words = textarea.value.trim().split(/\s+/).filter(Boolean); // Split by whitespace and filter out empty entries
       
       if (words.length > wordLimit) {
           // If word limit is exceeded, trim the input
           textarea.value = words.slice(0, wordLimit).join(' ') + ' ';
-          document.getElementById('warning').innerText = 'Word limit exceeded! Only the first 10 words are kept.';
+          document.getElementById('warning-' + textareaId).innerText = 'Word limit exceeded! Only the first 10 words are kept.';
             } else {
-                document.getElementById('warning').innerText = ''; // Clear warning if within limit
+                document.getElementById('warning-' + textareaId).innerText = ''; // Clear warning if within limit
       }
   }
 </script>
