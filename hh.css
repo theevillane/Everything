@@ -1,12 +1,12 @@
 body {font-family: Arial, Helvetica, sans-serif;
-background-color: #FE036A;
+background-color: green;
 }
 * {box-sizing: border-box;}
 
 input[type=text], select, textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid #f5347f;
+  border: 1px solid gray;
   border-radius: 4px;
   box-sizing: border-box;
   margin-top: 6px;
@@ -15,7 +15,7 @@ input[type=text], select, textarea {
 }
 
 input[type=submit] {
-  background-color: #f5347f;
+  background-color: green;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -24,11 +24,11 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-  background-color: #E75480;
+  background-color: black;
 }
 
 .container {
   border-radius: 5px;
-  background-color: pink;
+  background-color: grey;
   padding: 20px;
 }
