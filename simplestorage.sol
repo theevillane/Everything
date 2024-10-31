@@ -17,16 +17,25 @@ contract LandRegistry {
     // Event emitted when a land is transferred
     event LandTransferred(uint256 indexed landId, address indexed from, address indexed to);
 
+    // Event emitted when a land title is changed
+    event TitleChanged(uint256 indexed landId, string newTitle);
+
+    // Modifier to check land existence
+    modifier landExists(uint256 _landId) {
+        require(lands[_landId].exists, "Land does not exist");
+        _;
+    }
+
     // Function to register land
     function registerLand(string memory _title) public {
         landCount++;  // Increment land count
+        require(!lands[landCount].exists, "Land already registered"); // Ensure land doesn't exist
         lands[landCount] = Land(_title, msg.sender, true); // Create new land record
         emit LandRegistered(landCount, _title, msg.sender); // Emit event
     }
 
     // Function to transfer ownership of land
-    function transferLand(uint256 _landId, address _newOwner) public {
-        require(lands[_landId].exists, "Land does not exist"); // Check if land exists
+    function transferLand(uint256 _landId, address _newOwner) public landExists(_landId) {
         require(lands[_landId].owner == msg.sender, "You are not the owner"); // Ensure sender is the owner
 
         // Transfer ownership
@@ -35,9 +44,15 @@ contract LandRegistry {
         emit LandTransferred(_landId, previousOwner, _newOwner); // Emit event
     }
 
+    // Function to change land title
+    function changeTitle(uint256 _landId, string memory _newTitle) public landExists(_landId) {
+        require(lands[_landId].owner == msg.sender, "You are not the owner"); // Ensure sender is the owner
+        lands[_landId].title = _newTitle; // Update title
+        emit TitleChanged(_landId, _newTitle); // Emit event
+    }
+
     // Function to get land details
-    function getLand(uint256 _landId) public view returns (string memory title, address owner) {
-        require(lands[_landId].exists, "Land does not exist"); // Check if land exists
+    function getLand(uint256 _landId) public view landExists(_landId) returns (string memory title, address owner) {
         return (lands[_landId].title, lands[_landId].owner); // Return land title and owner
     }
 }
