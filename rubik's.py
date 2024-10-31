@@ -20,6 +20,6 @@ def solve_rubiks_cube(cube_string):
 if __name__ == "__main__":
     # Example: an unsolved cube in the format 'UUUUUUUUURRRRRRRRRBBBBBBBBBFFFFFFFFFLLLLLLLLLDDDDDDDDD'
     # You can create your own cube string based on the current state.
-    cube_state = "UUUUUUUUURRRRRRRRRBBBBBBBBBFFFFFFFFFLLLLLLLLLDDDDDDDDD"  # Adjust this as needed
+    cube_state = "UUUUUUUUURRRRRRRRRBBBBBBBBBFFFFFFFFFLLLLLLLLLDDDDDDDDD"  # workout as needed
     solution = solve_rubiks_cube(cube_state)
     print("Solution:", solution)
