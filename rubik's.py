@@ -24,7 +24,7 @@ if __name__ == "__main__":
     #prompt the user for the cube state
     cube_state = input("Enter the state(24 characters long): ").strip()
     
-    #validate input length
+    #Validate input length
     if len(cube_state) != 54:
         print("Error: The cube state must be 54 characters long.")
     else:
