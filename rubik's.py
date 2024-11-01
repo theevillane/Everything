@@ -29,4 +29,4 @@ if __name__ == "__main__":
         print("Error: The cube state must be 54 characters long.")
     else:
         solution = solve_rubiks_cube(cube_state)
-    print("Solution:", solution)
+    print("The solution is:", solution)
