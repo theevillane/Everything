@@ -7,7 +7,7 @@
     <script>
         function checkWordLimit() {
             const textarea = document.getElementById('userInput');
-            const wordLimit = 10; // Set the word limit
+            const wordLimit = 15; // Set the word limit
             const words = textarea.value.split(/\s+/).filter(Boolean); // Split by whitespace and filter out empty entries
             
             if (words.length > wordLimit) {
@@ -20,6 +20,6 @@
 <body>
     <h1>Word Limit Input</h1>
     <textarea id="userInput" rows="4" cols="50" oninput="checkWordLimit()" placeholder="Type your message..."></textarea>
-    <p>Word limit: 10</p>
+    <p>Word limit: 15</p>
 </body>
 </html>
