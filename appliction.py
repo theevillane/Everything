@@ -38,7 +38,9 @@ def login():
         return 'Invalid credentials'
     return render_template('login.html')
 
-
+@app.route('/dashboard')
+def dashboard():
+    return 'Welcome to your dashboard!'
 
 if __name__ == '__main__':
     app.run(debug=True)
