@@ -21,6 +21,15 @@ contract LandRegistry {
     uint256 public landCount;                // Count of registered lands
     address public admin;           //Admin address
 
+     // Escrow-related variables
+    mapping(uint256 => uint256) public escrowBalances; // Escrow balance per land ID
+    mapping(uint256 => address) public escrowBuyers;   // Buyer addresses in escrow
+
+    // Dispute-related variables
+    enum DisputeStatus { None, Raised, Resolved }
+    mapping(uint256 => DisputeStatus) public landDisputes;
+
+   
     // Event emitted when a land is registered
     event LandRegistered(uint256 indexed landId, string title, address indexed owner);
 
@@ -32,6 +41,15 @@ contract LandRegistry {
 
     //Event emitted when a land is activated
     event LandActivated(uint256 indexed LAndId);
+
+    //Event emitted when land is diactivated
+    event LandDeactivated(uint256 indexed landId);
+
+    event EscrowInitiated(uint256 indexed landId, address indexed buyer, uint256 price);
+    event EscrowReleased(uint256 indexed landId, address indexed buyer, address indexed seller, uint256 price);
+    event DisputeRaised(uint256 indexed landId, address indexed by);
+    event DisputeResolved(uint256 indexed landId, address indexed by);
+
 
     modifier onlyAdmin() {
         require(msg.sender == admin, "Only admin can perform this action");
@@ -63,6 +81,23 @@ contract LandRegistry {
         lands[landCount] = Land(_title, msg.sender, true); // Create new land record
         emit LandRegistered(landCount, _title, msg.sender); // Emit event
     }
+
+    // Initiate escrow for land transfer
+    function initiateEscrow(uint256 _landId) public payable landExists(_landId) landIsActive(_landId) {
+        require(msg.sender != lands[_landId].owner, "Owner cannot be the buyer");
+        require(escrowBalances[_landId] == 0, "Escrow already exists for this land");
+
+        escrowBalances[_landId] = msg.value;
+        escrowBuyers[_landId] = msg.sender;
+        emit EscrowInitiated(_landId, msg.sender, msg.value);
+    }
+
+    // Confirm ownership and release escrow to the seller
+    function releaseEscrow(uint256 _landId) public onlyOwner(_landId) landExists(_landId) landIsActive(_landId) {
+        require(escrowBalances[_landId] > 0, "No escrow to release");
+
+        address buyer = escrowBuyers[_landId];
+        uint256 amount = escrowBalances[_landId];
 
     // Function to transfer ownership of land
     function transferLand(uint256 _landId, address _newOwner, uint256 +price) 
