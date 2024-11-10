@@ -90,8 +90,13 @@ contract LandRegistry {
         emit TitleChanged(_landId, _newTitle); // Emit event
     }
 
-    // Function to get land details
-    function getLand(uint256 _landId) public view landExists(_landId) returns (string memory title, address owner) {
-        return (lands[_landId].title, lands[_landId].owner); // Return land title and owner
+    // Function to get land details, including active status
+    function getLand(uint256 _landId) 
+       public 
+       view 
+       landExists(_landId) 
+       returns (string memory title, address owner, bool active) {
+      Land memory land = lands[_landId]  
+      return (lands[_landId].title, lands[_landId].owner, land.active); // Return land title and owner
     }
 }
