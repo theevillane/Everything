@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract LandRegistry {
+
     struct Land {
         string title;         // Title of the land
         address owner;        // Current owner of the land
@@ -13,6 +14,7 @@ contract LandRegistry {
           address to;
           uint256 price;
           uint timestamp;
+    }
 
     mapping(uint256 => Land) public lands; // Mapping of land ID to Land struct
     mapping(uint256 => Transaction[]) public transactionHistory;   //Transaction history per land
@@ -65,7 +67,7 @@ contract LandRegistry {
     // Function to transfer ownership of land
     function transferLand(uint256 _landId, address _newOwner, uint256 +price) 
         public 
-        landExists(_landId
+        landExists(_landId)
         landIsActve(_landId)
         onlyOwner(_landId)
      {
