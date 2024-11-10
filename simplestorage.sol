@@ -5,10 +5,6 @@ contract LandRegistry {
     struct Land {
         string title;         // Title of the land
         address owner;        // Current owner of the land
-        land history;         // All previous land owners
-        land location;        //Where the land is located 
-        land size;            //Size of land in acres
-        price;                //The owners quoted price
         bool exists;          // Check if the land exists
     }
 
