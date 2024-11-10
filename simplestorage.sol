@@ -54,8 +54,8 @@ contract LandRegistry {
         admin = msg.sender; // Set the contract deployer as admin
     }
 
-    // Function to register land
-    function registerLand(string memory _title) public {
+    // Function to register land(only admins to register lands)
+    function registerLand(string memory _title) public onlyAdmin {
         landCount++;  // Increment land count
         require(!lands[landCount].exists, "Land already registered"); // Ensure land doesn't exist
         lands[landCount] = Land(_title, msg.sender, true); // Create new land record
@@ -63,8 +63,9 @@ contract LandRegistry {
     }
 
     // Function to transfer ownership of land
-    function transferLand(uint256 _landId, address _newOwner, uint256 price) 
-        public landExists(_landId
+    function transferLand(uint256 _landId, address _newOwner, uint256 +price) 
+        public 
+        landExists(_landId
         landIsActve(_landId)
         onlyOwner(_landId)
      {
@@ -89,6 +90,14 @@ contract LandRegistry {
         lands[_landId].title = _newTitle; // Update title
         emit TitleChanged(_landId, _newTitle); // Emit event
     }
+
+    //Function to deactivate a land(only admin opr owner can deactivat)
+     function deactivateLand(uint256 _landId) 
+     public 
+     LandExists(_landId){
+     require(msg.sender == admin || msg.sender == lands[_landId].owner, "Only admin or owner can deactivate land");
+     lands[_landId].active = false;
+     emit LandDeactivated(_landId);
 
     // Function to get land details, including active status
     function getLand(uint256 _landId) 
