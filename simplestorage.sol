@@ -99,25 +99,53 @@ contract LandRegistry {
         address buyer = escrowBuyers[_landId];
         uint256 amount = escrowBalances[_landId];
 
-    // Function to transfer ownership of land
-    function transferLand(uint256 _landId, address _newOwner, uint256 +price) 
-        public 
-        landExists(_landId)
-        landIsActve(_landId)
-        onlyOwner(_landId)
-     {
-        require(lands[_landId].owner == msg.sender, "You are not the owner"); // Ensure sender is the owner
-
-        // Transfer ownership
+   // Transfer ownership
         address previousOwner = lands[_landId].owner;
-        lands[_landId].owner = _newOwner; // Update owner
-         // Record the transaction
+        lands[_landId].owner = buyer;
+
+        // Record transaction
         transactionHistory[_landId].push(
-            Transaction(previousOwner, _newOwner, _price, block.timestamp)
+            Transaction(previousOwner, buyer, amount, block.timestamp)
         );
-        emit LandTransferred(_landId, previousOwner, _newOwner); // Emit event
+
+    // Release funds to seller
+        payable(previousOwner).transfer(amount);
+        
+        // Clear escrow data
+        delete escrowBalances[_landId];
+        delete escrowBuyers[_landId];
+
+        emit EscrowReleased(_landId, buyer, previousOwner, amount);
+        emit LandTransferred(_landId, previousOwner, buyer, amount);
     }
 
+    // Raise a dispute
+    function raiseDispute(uint256 _landId) public landExists(_landId) {
+        require(msg.sender == lands[_landId].owner || msg.sender == escrowBuyers[_landId], "Only involved parties can raise a dispute");
+        require(landDisputes[_landId] == DisputeStatus.None, "Dispute already raised");
+
+        landDisputes[_landId] = DisputeStatus.Raised;
+        emit DisputeRaised(_landId, msg.sender);
+    }
+
+    // Resolve a dispute (admin only)
+    function resolveDispute(uint256 _landId, bool approveTransfer) public onlyAdmin landExists(_landId) {
+        require(landDisputes[_landId] == DisputeStatus.Raised, "No dispute to resolve");
+
+        if (approveTransfer) {
+            releaseEscrow(_landId); // Resolve in favor of buyer and transfer ownership
+        } else {
+            // Refund buyer and cancel escrow
+            address buyer = escrowBuyers[_landId];
+            uint256 amount = escrowBalances[_landId];
+
+            payable(buyer).transfer(amount);
+            delete escrowBalances[_landId];
+            delete escrowBuyers[_landId];
+        }
+
+        landDisputes[_landId] = DisputeStatus.Resolved;
+        emit DisputeResolved(_landId, msg.sender);
     // Function to change land title
     function changeTitle(uint256 _landId, string memory _newTitle) 
        public 
