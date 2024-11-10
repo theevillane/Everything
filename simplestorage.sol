@@ -136,6 +136,11 @@ contract LandRegistry {
      lands[_landId].active = false;
      emit LandDeactivated(_landId);
 
+    // Get transaction history
+    function getTransactionHistory(uint256 _landId) public view landExists(_landId) returns (Transaction[] memory) {
+        return transactionHistory[_landId];
+    }
+
     // Function to get land details, including active status
     function getLand(uint256 _landId) 
        public 
