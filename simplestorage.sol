@@ -119,7 +119,7 @@ contract LandRegistry {
         emit LandTransferred(_landId, previousOwner, buyer, amount);
     }
 
-    // Raise a dispute
+    // Raise a dispute in the land transfer
     function raiseDispute(uint256 _landId) public landExists(_landId) {
         require(msg.sender == lands[_landId].owner || msg.sender == escrowBuyers[_landId], "Only involved parties can raise a dispute");
         require(landDisputes[_landId] == DisputeStatus.None, "Dispute already raised");
@@ -164,15 +164,14 @@ contract LandRegistry {
      lands[_landId].active = false;
      emit LandDeactivated(_landId);
 
-    // Get transaction history
+    // Get transaction history of a specific land
     function getTransactionHistory(uint256 _landId) public view landExists(_landId) returns (Transaction[] memory) {
         return transactionHistory[_landId];
     }
 
     // Function to get land details, including active status
     function getLand(uint256 _landId) 
-       public 
-       view 
+       public view 
        landExists(_landId) 
        returns (string memory title, address owner, bool active) {
       Land memory land = lands[_landId]  
