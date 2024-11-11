@@ -174,6 +174,6 @@ contract LandRegistry {
        landExists(_landId) 
        returns (string memory title, address owner, bool active) {
       Land memory land = lands[_landId]  
-      return (lands[_landId].title, lands[_landId].owner, land.active); // Return land title and owner
+      return (lands[_landId].title, lands[_landId].owner, land[_landId].active); // Return land title and owner
     }
 }
