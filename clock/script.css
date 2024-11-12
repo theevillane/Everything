@@ -11,25 +11,28 @@ body {
     height: 100vh;
     background-color: #121212;
     font-family: Arial, sans-serif;
+    color: #fff;
 }
 
 .container {
     display: flex;
+    flex-direction: column;
+     align-items: center;
     gap: 20px;
-    align-items: center;
+   
 }
 
-.container h1 {
+h1 {
     font-size: 2rem;
     color: #ff2972;
     text-align: center;
     font-weight: 700;
 }
-.time-text {
-    font-size: 1.2rem;
-    color: #fff;
-    opacity: 0.8;
-}
+
+#time {
+    display: flex;
+    gap: 20px;
+    align-items: center;
 
 .circle {
     position: relative;
@@ -78,7 +81,18 @@ circle {
     height: 10px;
     background-color: var(--color);
     border-radius: 50%;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    transform-origin: center;
     z-index: 10;
+}
+
+.time-text {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #fff;
+    opacity: 0.7;
 }
 
 .h_dot {
