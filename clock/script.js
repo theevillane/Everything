@@ -1,4 +1,4 @@
-<script>
+
     function updateClock() {
         const now = new Date();
         let hours = now.getHours();
@@ -32,4 +32,3 @@
     }
 
     setInterval(updateClock, 1000);
-</script>
