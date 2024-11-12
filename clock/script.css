@@ -19,6 +19,18 @@ body {
     align-items: center;
 }
 
+.container h1 {
+    font-size: 2rem;
+    color: #ff2972;
+    text-align: center;
+    font-weight: 700;
+}
+.time-text {
+    font-size: 1.2rem;
+    color: #fff;
+    opacity: 0.8;
+}
+
 .circle {
     position: relative;
     width: 150px;
