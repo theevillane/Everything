@@ -99,6 +99,7 @@ contract LandRegistry {
 
         address buyer = escrowBuyers[_landId];
         uint256 amount = escrowBalances[_landId];
+        address seller = lands[_landId].owner;
 
    // Transfer ownership
         address previousOwner = lands[_landId].owner;
@@ -108,6 +109,8 @@ contract LandRegistry {
         transactionHistory[_landId].push(
             Transaction(previousOwner, buyer, amount, block.timestamp)
         );
+       escrowBalances[_landId] = 0;
+       escrowBuyers[_landId] = address(0);
 
     // Release funds to seller
         payable(previousOwner).transfer(amount);
@@ -147,6 +150,8 @@ contract LandRegistry {
 
         landDisputes[_landId] = DisputeStatus.Resolved;
         emit DisputeResolved(_landId, msg.sender);
+    }
+
     // Function to change land title
     function changeTitle(uint256 _landId, string memory _newTitle) public landExists(_landId)
        onlyOwner    //Ensure the seller is the owner
@@ -167,9 +172,8 @@ contract LandRegistry {
     }
 
     // Function to get land details, including active status
-    function getLand(uint256 _landId) public view LandExists(_landId) 
-      returns (string memory title, address owner, bool active) {
+    function getLand(uint256 _landId) public view LandExists(_landId) returns (string memory, bool) {
       Land memory land = lands[_landId]  
-      return (lands[_landId].title, lands[_landId].owner, land[_landId].active); // Return land title and owner
+      return (land.title, lands.owner, land.active); // Return land title and owner
     }
 }
