@@ -147,9 +147,7 @@ contract LandRegistry {
         landDisputes[_landId] = DisputeStatus.Resolved;
         emit DisputeResolved(_landId, msg.sender);
     // Function to change land title
-    function changeTitle(uint256 _landId, string memory _newTitle) 
-       public 
-       landExists(_landId)
+    function changeTitle(uint256 _landId, string memory _newTitle) public landExists(_landId)
        onlyOwner    //Ensure the seller is the owner
      {
         lands[_landId].title = _newTitle; // Update title
@@ -157,8 +155,7 @@ contract LandRegistry {
     }
 
     //Function to deactivate a land(only admin or owner can deactivate)
-     function deactivateLand(uint256 _landId) 
-     public LandExists(_landId){
+     function deactivateLand(uint256 _landId) public LandExists(_landId){
      require(msg.sender == admin || msg.sender == lands[_landId].owner, "Only admin or owner can deactivate land");
      lands[_landId].active = false;
      emit LandDeactivated(_landId);
@@ -169,10 +166,8 @@ contract LandRegistry {
     }
 
     // Function to get land details, including active status
-    function getLand(uint256 _landId) 
-       public view 
-       landExists(_landId) 
-       returns (string memory title, address owner, bool active) {
+    function getLand(uint256 _landId) public view LandExists(_landId) 
+      returns (string memory title, address owner, bool active) {
       Land memory land = lands[_landId]  
       return (lands[_landId].title, lands[_landId].owner, land[_landId].active); // Return land title and owner
     }
