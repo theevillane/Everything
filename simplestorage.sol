@@ -18,16 +18,17 @@ contract LandRegistry {
 
     mapping(uint256 => Land) public lands; // Mapping of land ID to Land struct
     mapping(uint256 => Transaction[]) public transactionHistory;   //Transaction history per land
+      // Escrow-related variables
+    mapping(uint256 => uint256) public escrowBalances; // Escrow balance per land ID
+    mapping(uint256 => address) public escrowBuyers;   // Buyer addresses in escrow
+    mapping(uint256 => DisputeStatus) public landDisputes;
+
     uint256 public landCount;                // Count of registered lands
     address public admin;           //Admin address
 
-     // Escrow-related variables
-    mapping(uint256 => uint256) public escrowBalances; // Escrow balance per land ID
-    mapping(uint256 => address) public escrowBuyers;   // Buyer addresses in escrow
 
     // Dispute-related variables
     enum DisputeStatus { None, Raised, Resolved }
-    mapping(uint256 => DisputeStatus) public landDisputes;
 
    
     // Event emitted when a land is registered
