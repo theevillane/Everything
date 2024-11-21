@@ -101,9 +101,9 @@ contract LandRegistry {
         uint256 amount = escrowBalances[_landId];
         address seller = lands[_landId].owner;
 
-   // Transfer ownership
-        address previousOwner = lands[_landId].owner;
+        // Transfer ownership
         lands[_landId].owner = buyer;
+        
 
         // Record transaction
         transactionHistory[_landId].push(
@@ -165,6 +165,7 @@ contract LandRegistry {
      require(msg.sender == admin || msg.sender == lands[_landId].owner, "Only admin or owner can deactivate land");
      lands[_landId].active = false;
      emit LandDeactivated(_landId);
+    }
 
     // Get transaction history of a specific land
     function getTransactionHistory(uint256 _landId) public view landExists(_landId) returns (Transaction[] memory) {
@@ -172,7 +173,7 @@ contract LandRegistry {
     }
 
     // Function to get land details, including active status
-    function getLand(uint256 _landId) public view LandExists(_landId) returns (string memory, bool) {
+    function getLand(uint256 _landId) public view LandExists(_landId) returns (string memory, address, bool) {
       Land memory land = lands[_landId]  
       return (land.title, lands.owner, land.active); // Return land title and owner
     }
