@@ -112,12 +112,14 @@ contract LandRegistry {
        escrowBalances[_landId] = 0;
        escrowBuyers[_landId] = address(0);
 
-    // Release funds to seller
-        payable(previousOwner).transfer(amount);
-        
-        // Clear escrow data
+
+       // Clear escrow data
         delete escrowBalances[_landId];
         delete escrowBuyers[_landId];
+ 
+    // Release funds to seller
+        payable(previousOwner).transfer(amount);
+
 
         emit EscrowReleased(_landId, buyer, previousOwner, amount);
         emit LandTransferred(_landId, previousOwner, buyer, amount);
@@ -173,8 +175,8 @@ contract LandRegistry {
     }
 
     // Function to get land details, including active status
-    function getLand(uint256 _landId) public view LandExists(_landId) returns (string memory, address, bool) {
-      Land memory land = lands[_landId]  
+    function getLand(uint256 _landId) public view landExists(_landId) returns (string memory, address, bool) {
+      Land memory land = lands[_landId];  
       return (land.title, lands.owner, land.active); // Return land title and owner
     }
 }
