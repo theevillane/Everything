@@ -79,7 +79,7 @@ contract LandRegistry {
     function registerLand(string memory _title) public onlyAdmin {
         landCount++;  // Increment land count
         require(!lands[landCount].exists, "Land already registered"); // Ensure land doesn't exist
-        lands[landCount] = Land(_title, msg.sender, true); // Create new land record
+        lands[landCount] = Land(_title, msg.sender, true,true); // Create new land record
         emit LandRegistered(landCount, _title, msg.sender); // Emit event
     }
 
