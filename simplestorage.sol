@@ -1,21 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract LandRegistry {
+import "@openzeppelin/contracts/access/AccessControl.sol"
+
+contract LandRegistry is AccessContol {
 
     struct Land {
         string title;         // Title of the land
-        address owner;        // Current owner of the land
+        address currentOwner;        // Current owner of the land
+        address[] ownershipHistory;      //List of previous owners
         bool exists;          // Check if the land exists
-        bool active;         //Indicates if the land is cactive
-    }
-    struct Transaction{
-          address from;
-          address to;
-          uint256 price;
-          uint timestamp;
+        bool active;         //Status of land(active/inactive)
     }
 
+    struct Transaction{
+          address from;       //seller's address
+          address to;         //buyer's address
+          uint256 price;      //Transaction fee
+          uint timestamp;     //Transaction time
+    }
+
+
+    //Role definition
+    byte32 public constatnt ADMIN_ROLE = keccak256("ADMIN_ROLE")
+    byte32 public constant LAND_OWNER_ROLE = keccak256("LAND_OWNER_ROLE")
+
+    //mappingd
     mapping(uint256 => Land) public lands; // Mapping of land ID to Land struct
     mapping(uint256 => Transaction[]) public transactionHistory;   //Transaction history per land
       // Escrow-related variables
