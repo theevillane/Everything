@@ -37,6 +37,11 @@ contract LandRegistry is AccessControl {
 
     uint256 public landCount; // Counter for registered lands
 
+    constructor() {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender); // Contract deployer is super admin
+        _setupRole(ADMIN_ROLE, msg.sender);         // Assign admin role to deployer
+    }
+
     // Events
     event LandRegistered(uint256 indexed landId, string title, address indexed owner);
     event LandTransferred(uint256 indexed landId, address indexed from, address indexed to, uint256 price);
@@ -48,10 +53,6 @@ contract LandRegistry is AccessControl {
     event DisputeRaised(uint256 indexed landId, address indexed by);
     event DisputeResolved(uint256 indexed landId, address indexed by);
 
-    constructor() {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender); // Contract deployer is super admin
-        _setupRole(ADMIN_ROLE, msg.sender);         // Assign admin role to deployer
-    }
 
     // Modifiers
     modifier onlyAdmin() {
