@@ -104,6 +104,47 @@ contract LandRegistry is AccessContol {
              exists: true
              active: true
         }); 
+
+        // Update roles
+        _revokeRole(LAND_OWNER_ROLE, previousOwner);
+        _grantRole(LAND_OWNER_ROLE, _newOwner);
+
+        emit OwnershipTransferred(_landId, previousOwner, _newOwner);
+    }
+
+    // Get land details
+    function getLand(uint256 _landId) public view landExists(_landId) returns (string memory, address, address[] memory, bool) {
+        Land memory land = lands[_landId];
+        return (land.title, land.currentOwner, land.ownershipHistory, land.active);
+    }
+
+    // Grant roles
+    function grantRoleToUser(bytes32 role, address account) public onlyAdmin {
+        _grantRole(role, account);
+        emit RoleGranted(account, string(abi.encodePacked(role)));
+    }
+
+    // Revoke roles
+    function revokeRoleFromUser(bytes32 role, address account) public onlyAdmin {
+        _revokeRole(role, account);
+        emit RoleRevoked(account, string(abi.encodePacked(role)));
+    }
+
+    // Deactivate a land (Admin or Owner)
+    function deactivateLand(uint256 _landId) public landExists(_landId) {
+        require(
+            hasRole(ADMIN_ROLE, msg.sender) || msg.sender == lands[_landId].currentOwner,
+            "Only admin or owner can deactivate land"
+        );
+        lands[_landId].active = false;
+    }
+
+    // Fetch transaction history of a land
+    function getTransactionHistory(uint256 _landId) public view landExists(_landId) returns (Transaction[] memory) {
+        return transactions[_landId];
+    }
+}
+
        lands[landId].ownershipHistory.push(_owner);   //add initial owner to history
        _grantRole(LAND_OWNER_ROLE, _owner);
     }
