@@ -62,6 +62,11 @@ contract LandRegistry is AccessContol {
     event DisputeResolved(uint256 indexed landId, address indexed by);
 
 
+   constructur() {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender); //contact deployer as the super admin
+        _setupRole(ADMIN_ROLE, msg.sender);         //asigning admin role to deployer
+
+
     modifier onlyAdmin() {
         require(msg.sender == admin, "Only admin can perform this action");
         _;
@@ -88,9 +93,19 @@ contract LandRegistry is AccessContol {
     // Function to register land(only admins to register lands)
     function registerLand(string memory _title) public onlyAdmin {
         landCount++;  // Increment land count
-        require(!lands[landCount].exists, "Land already registered"); // Ensure land doesn't exist
-        lands[landCount] = Land(_title, msg.sender, true,true); // Create new land record
-        emit LandRegistered(landCount, _title, msg.sender); // Emit event
+         uint256 landId = landCount;
+
+        require(!lands[landId].exists, "Land already registered"); // Ensure land doesn't exist
+
+        lands[landId] = Land({
+             title: _title, 
+             currentOwner: _owner,
+             ownershipHistory: new address
+             exists: true
+             active: true
+        }); 
+       lands[landId].ownershipHistory.push(_owner);   //add initial owner to history
+       _grantRole(LAND_OWNER_ROLE, _owner);
     }
 
     // Initiate escrow for land transfer
@@ -112,13 +127,27 @@ contract LandRegistry is AccessContol {
         address seller = lands[_landId].owner;
 
         // Transfer ownership
-        lands[_landId].owner = buyer;
-        
+    function transferOwnership(uint256 _landId, address _newOwner, uint256 _price)
+        public
+        onlyLandOwner(_landId)
+        landExists(_landId)
+        landIsActive(_landId)
+    {
+        address previousOwner = lands[_landId].currentOwnwer;
 
-        // Record transaction
-        transactionHistory[_landId].push(
-            Transaction(previousOwner, buyer, amount, block.timestamp)
-        );
+        //update ownership
+        lands[_landId].currentOwner = _newOwner;
+        lands[_landId].ownershipHistory.push(_newOwner);
+
+        //record transaction
+        transactions[_landId].push*Transaction({
+            from: previousOwner,
+            to: _newOwner,
+            price: _price,
+            timestamp: block.timestamp
+        }));
+
+        
        escrowBalances[_landId] = 0;
        escrowBuyers[_landId] = address(0);
 
