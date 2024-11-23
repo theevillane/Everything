@@ -104,7 +104,7 @@ contract LandRegistry {
 
         address buyer = escrowBuyers[_landId];
         uint256 amount = escrowBalances[_landId];
-        address seller = lands[_landId].owner;
+        address previousOwner = lands[_landId].owner;
 
         // Transfer ownership
         lands[_landId].owner = buyer;
