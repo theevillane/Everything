@@ -94,7 +94,12 @@ contract LandRegistry {
     }
 
     // Confirm ownership and release escrow to the seller
-    function releaseEscrow(uint256 _landId) public onlyOwner(_landId) landExists(_landId) landIsActive(_landId) {
+    function releaseEscrow(uint256 _landId) 
+        public 
+        onlyOwner(_landId) 
+        landExists(_landId) 
+        landIsActive(_landId)
+     {
         require(escrowBalances[_landId] > 0, "No escrow to release");
 
         address buyer = escrowBuyers[_landId];
@@ -107,7 +112,12 @@ contract LandRegistry {
 
         // Record transaction
         transactionHistory[_landId].push(
-            Transaction(previousOwner, buyer, amount, block.timestamp)
+            Transaction({
+                 from: previousOwner, 
+                 to: buyer, 
+                 price: amount, 
+                 time: block.timestamp
+            })
         );
        escrowBalances[_landId] = 0;
        escrowBuyers[_landId] = address(0);
@@ -122,7 +132,7 @@ contract LandRegistry {
 
 
         emit EscrowReleased(_landId, buyer, previousOwner, amount);
-        emit LandTransferred(_landId, previousOwner, buyer, amount);
+        emit LandTransferred(_landId, previousOwner, buyer);
     }
 
     // Raise a dispute in the land transfer
