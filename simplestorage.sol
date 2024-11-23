@@ -163,7 +163,7 @@ contract LandRegistry {
     }
 
     //Function to deactivate a land(only admin or owner can deactivate)
-     function deactivateLand(uint256 _landId) public LandExists(_landId){
+     function deactivateLand(uint256 _landId) public landExists(_landId){
      require(msg.sender == admin || msg.sender == lands[_landId].owner, "Only admin or owner can deactivate land");
      lands[_landId].active = false;
      emit LandDeactivated(_landId);
