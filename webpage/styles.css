@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: url('images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+}
+
+/* Container */
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Title */
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 16px 10px 38px;
+    border: none;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+    caret-color: white;
+    transition: 0.3s;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.form-group i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: 0.3s;
+}
+
+.form-group input:focus + i {
+    color: white;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #32CDD5;
+    border: none;
+    border-radius: 24px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #28A8AD;
+}
+
+.btn:focus {
+    outline: 2px solid rgba(50, 205, 213, 0.5);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #32CDD5;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    background-color: #32CDD5;
+    color: #fff;
+}
+
+/* Dashboard Styles */
+.dashboard-content {
+    margin-top: 20px;
+}
+
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: left;
+}
+
+.dashboard-card h3 {
+    margin-bottom: 10px;
+}
