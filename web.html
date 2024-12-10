@@ -99,5 +99,186 @@
 </head>
 <body>
     <div id="app"></div>
+    <script>
+        const users = [
+            { username: 'admin', password: 'password123', name: 'John Doe' }
+        ];
+
+        const routes = {
+            '/signup': renderSignup,
+            '/login': renderLogin,
+            '/dashboard': renderDashboard,
+            '/about': renderAboutUs,
+            '/contact': renderContact
+        };
+
+        function renderApp(content) {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <nav class="nav">
+                    <a href="#/login">Login</a>
+                    <a href="#/signup">Signup</a>
+                    <a href="#/dashboard">Dashboard</a>
+                    <a href="#/about">About Us</a>
+                    <a href="#/contact">Contact</a>
+                </nav>
+                ${content}
+            `;
+        }
+
+        function renderSignup() {
+            renderApp(`
+                <div class="container">
+                    <h2>Sign Up</h2>
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="signupUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="signupPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn">Sign Up</button>
+                    </form>
+                </div>
+            `);
+
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('signupUsername').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+
+                if (users.some(user => user.username === username)) {
+                    alert('Username already exists');
+                    return;
+                }
+
+                users.push({ username, password, name: username });
+                alert('Signup successful');
+                window.location.hash = '/login';
+            });
+        }
+
+        function renderLogin() {
+            renderApp(`
+                <div class="container">
+                    <h2>Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="loginUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                    </form>
+                </div>
+            `);
+
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+
+                const user = users.find(u => u.username === username && u.password === password);
+                if (user) {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    window.location.hash = '/dashboard';
+                } else {
+                    alert('Invalid username or password');
+                }
+            });
+        }
+
+        function renderDashboard() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.hash = '/login';
+                return;
+            }
+
+            renderApp(`
+                <div class="dashboard-content">
+                    <div class="dashboard-card">
+                        <h2>Welcome, ${currentUser.name}!</h2>
+                        <p>This is your personal dashboard.</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Recent Activity</h3>
+                        <p>No recent activity found.</p>
+                    </div>
+                    <button class="btn" onclick="logout()">Logout</button>
+                </div>
+            `);
+        }
+
+        function renderAboutUs() {
+            renderApp(`
+                <div class="container">
+                    <h2>About Us</h2>
+                    <p>We are a passionate team dedicated to creating simple and effective web applications.</p>
+                    <div class="dashboard-card">
+                        <h3>Our Mission</h3>
+                        <p>To provide user-friendly web solutions that make your digital experience smoother.</p>
+                    </div>
+                </div>
+            `);
+        }
+
+        function renderContact() {
+            renderApp(`
+                <div class="container">
+                    <h2>Contact Us</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea style="width: 100%; padding: 10px; min-height: 100px;"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            `);
+
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Message sent successfully!');
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.hash = '/login';
+        }
+
+        function router() {
+            const hash = window.location.hash.slice(2) || 'login';
+            const route = routes['/' + hash];
+            if (route) route();
+        }
+
+        window.addEventListener('hashchange', router);
+        window.addEventListener('load', router);
+    </script>
 </body>
 </html>
