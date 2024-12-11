@@ -139,13 +139,27 @@ function renderDashboard() {
                 <p>This is your personal dashboard.</p>
             </div>
             <div class="dashboard-card">
-                <h3>Recent Activity</h3>
-                <p>No recent activity found.</p>
+                <h3>Tasks</h3>
+                <ul id="taskList"></ul>
+                <input type="text" id="newTask" placeholder="New Task">
+                <button class="btn" onclick="addTask()">Add Task</button>
             </div>
             <button class="btn" onclick="logout()">Logout</button>
         </div>
     `);
 }
+
+function addTask() {
+    const taskInput = document.getElementById('newTask');
+    const taskList = document.getElementById('taskList');
+    if (taskInput.value) {
+        const li = document.createElement('li');
+        li.textContent = taskInput.value;
+        taskList.appendChild(li);
+        taskInput.value = '';
+    }
+}
+
 
 function renderAboutUs() {
     renderApp(`
