@@ -135,6 +135,13 @@ h2 {
     color: #fff;
 }
 
+.nav a.active {
+    background-color: #32CDD5;
+    color: white;
+    border-radius: 12px;
+    padding: 5px 10px;
+}
+
 /* Dashboard Styles */
 .dashboard-content {
     margin-top: 20px;
