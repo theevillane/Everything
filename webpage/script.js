@@ -24,6 +24,28 @@ function renderApp(content) {
     `;
 }
 
+function updateActiveNav() {
+    const links = document.querySelectorAll('.nav a');
+    const hash = window.location.hash;
+    links.forEach(link => {
+        if (link.href.includes(hash)) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+function router() {
+    const hash = window.location.hash.slice(2) || 'login';
+    const route = routes['/' + hash];
+    if (route) {
+        route();
+        updateActiveNav();
+    }
+}
+
+
 function renderSignup() {
     renderApp(`
         <div class="container">
