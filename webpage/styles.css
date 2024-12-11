@@ -69,6 +69,24 @@ h2 {
     transition: 0.3s;
 }
 
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    min-height: 100px;
+    outline: none;
+    caret-color: white;
+    resize: none;
+}
+
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
 .form-group input:focus + i {
     color: white;
 }
