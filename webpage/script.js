@@ -188,6 +188,21 @@ function renderContact() {
     });
 }
 
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast show';
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        document.body.removeChild(toast);
+    }, 3000);
+}
+
+
+showToast('Signup successful!');
+
+
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.hash = '/login';
