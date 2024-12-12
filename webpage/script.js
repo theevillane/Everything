@@ -132,6 +132,8 @@ function renderDashboard() {
         return;
     }
 
+    const userData = getUserData(currentUser);
+
     renderApp(`
         <div class="dashboard-content">
             <div class="dashboard-card">
@@ -140,7 +142,9 @@ function renderDashboard() {
             </div>
             <div class="dashboard-card">
                 <h3>Tasks</h3>
-                <ul id="taskList"></ul>
+                <ul id="taskList">
+                    ${userData.tasks.map(task => '<li>${task}</li>').join('')}
+                </ul>
                 <input type="text" id="newTask" placeholder="New Task">
                 <button class="btn" onclick="addTask()">Add Task</button>
             </div>
@@ -192,12 +196,20 @@ function renderContact() {
 }
 
 function addTask() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+
     const taskInput = document.getElementById('newTask');
-    const taskList = document.getElementById('taskList');
     if (taskInput.value) {
+        const taskList = document.getElementById('taskList');
         const li = document.createElement('li');
         li.textContent = taskInput.value;
         taskList.appendChild(li);
+
+        const userData = getUserData(currentUser);
+        userData.tasks.push(taskInput.value);
+        saveUserData(currentUser, userData);
+
         taskInput.value = '';
     }
 }
