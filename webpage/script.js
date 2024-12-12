@@ -195,6 +195,57 @@ function renderContact() {
     });
 }
 
+function renderResetPassword() {
+    renderApp(`
+        <div class="container">
+            <h2>Reset Password</h2>
+            <form id="resetPasswordForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="resetUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmNewPassword" required>
+                </div>
+                <button type="submit" class="btn">Reset Password</button>
+            </form>
+        </div>
+    `);
+
+    // Handle Reset Password Form Submission
+    document.getElementById('resetPasswordForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('resetUsername').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmNewPassword').value;
+
+        if (newPassword !== confirmPassword) {
+            alert('Passwords do not match.');
+            return;
+        }
+
+        // Update password in storage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.username === username);
+
+        if (!user) {
+            alert('User not found.');
+            return;
+        }
+
+        user.password = btoa(newPassword); // Simulating hashing, replace with proper hash in production
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Password reset successful. Please login with your new password.');
+        window.location.hash = '/login';
+    });
+}
+
+
 function addTask() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) return;
