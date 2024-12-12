@@ -149,17 +149,6 @@ function renderDashboard() {
     `);
 }
 
-function addTask() {
-    const taskInput = document.getElementById('newTask');
-    const taskList = document.getElementById('taskList');
-    if (taskInput.value) {
-        const li = document.createElement('li');
-        li.textContent = taskInput.value;
-        taskList.appendChild(li);
-        taskInput.value = '';
-    }
-}
-
 
 function renderAboutUs() {
     renderApp(`
@@ -201,6 +190,18 @@ function renderContact() {
         alert('Message sent successfully!');
     });
 }
+
+function addTask() {
+    const taskInput = document.getElementById('newTask');
+    const taskList = document.getElementById('taskList');
+    if (taskInput.value) {
+        const li = document.createElement('li');
+        li.textContent = taskInput.value;
+        taskList.appendChild(li);
+        taskInput.value = '';
+    }
+}
+
 
 function showToast(message) {
     const toast = document.createElement('div');
