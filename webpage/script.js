@@ -99,15 +99,14 @@ function renderLogin() {
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" id="loginUsername" required>
-                    <i class='bx bxs-user'></i>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" id="loginPassword" required>
-                    <i class='bx bxs-user'></i>
                 </div>
                 <button type="submit" class="btn">Login</button>
             </form>
+            <button class="btn reset-btn" onclick="window.location.hash='/reset-password'">Forgot Password?</button>
         </div>
     `);
 
@@ -125,6 +124,7 @@ function renderLogin() {
         }
     });
 }
+
 
 function renderDashboard() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
