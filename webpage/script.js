@@ -7,7 +7,8 @@ const routes = {
     '/login': renderLogin,
     '/dashboard': renderDashboard,
     '/about': renderAboutUs,
-    '/contact': renderContact
+    '/contact': renderContact,
+    '/reset-password': renderResetPassword
 };
 
 function renderApp(content) {
@@ -217,7 +218,6 @@ function renderResetPassword() {
         </div>
     `);
 
-    // Handle Reset Password Form Submission
     document.getElementById('resetPasswordForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const username = document.getElementById('resetUsername').value;
@@ -229,7 +229,6 @@ function renderResetPassword() {
             return;
         }
 
-        // Update password in storage
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(u => u.username === username);
 
