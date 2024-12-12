@@ -202,6 +202,17 @@ function addTask() {
     }
 }
 
+function saveUserData(user, data) {
+    const allData = JSON.parse(localStorage.getItem('dashboardData')) || {};
+    allData[user.username] = data;
+    localStorage.setItem('dashboardData', JSON.stringify(allData));
+}
+
+function getUserData(user) {
+    const allData = JSON.parse(localStorage.getItem('dashboardData')) || {};
+    return allData[user.username] || { tasks: [] };
+}
+
 
 function showToast(message) {
     const toast = document.createElement('div');
