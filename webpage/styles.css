@@ -112,6 +112,19 @@ h2 {
     outline: 2px solid rgba(50, 205, 213, 0.5);
 }
 
+.reset-btn {
+    margin-top: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    text-align: center;
+}
+.reset-btn:hover {
+    background-color: #d32f2f;
+}
+
 .nav {
     display: flex;
     justify-content: space-around;
