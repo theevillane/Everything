@@ -13,11 +13,10 @@
 <script>
   function checkWordLimit(textareaId) {
       const textarea = document.getElementById('userInput');
-      const wordLimit = 18; // Set the word limit
-      const words = textarea.value.trim().split(/\s+/).filter(Boolean); // Split by whitespace and filter out empty entries
+      const wordLimit = 18; 
+      const words = textarea.value.trim().split(/\s+/).filter(Boolean); 
       
       if (words.length > wordLimit) {
-          // If word limit is exceeded, trim the input
           textarea.value = words.slice(0, wordLimit).join(' ') + ' ';
           document.getElementById('warning-' + textareaId).innerText = 'Word limit exceeded! Only the first 10 words are kept.';
             } else {
